@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="stylesheet" href="/pl.css">
+
+<body>
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2';
+                fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+     <!-- Navigation -->
+     <nav class="w3-bar w3-black">
+        <a href="/index.html" class="w3-button w3-bar-item">Home</a>
+        <a href="/Videos.html" class="w3-button w3-bar-item">Videos</a>
+        <a href="/About.html" class="w3-button w3-bar-item">About</a>
+    </nav> 
+
+    <section class="w3-container w3-content w3-center" style="max-width:2400px; object-fit: contain; background-color: black">
+        <img src="plLogov2.png" style="max-width: 100%; height: auto;">
+    </section> 
+
+    <script src="https://apis.google.com/js/platform.js"></script>
+
+    
+    <section class="w3-container w3-center" style="max-width:2400px; background-image: linear-gradient(white, #6befd7);">
+        <h2 class="w3-wide">Plainline Productions</h2>
+        <p class="w3-opacity"><i>NY</i></p>
+    
+        <div class="g-ytsubscribe" data-channel="PlainLine" data-layout="full" data-theme="dark" data-count="default"></div>
+
+        <div class="fb-like" data-href="https://www.facebook.com/Plain-Line-Productions-540127796134144/?hc_ref=ARQrrUpaO8A_QvyhcUHS8mNzFeaijz4_Bo9EYhkBP_0KyRUFn5vkqA1nkXIIMccwt7E&amp;fref=nf&amp;__xts__[0]=68.ARAEJRXIFO25PhGRFEAlEGefKTGJrIgVUqftuUMA_T340nsz8ivtKlZsK9qRgz6rzA5fGKl5fvCXJQG9z6T8Mm0I4WAKy0zmhAWItSRU4jgd5ZKzhnDm3NXvfhv3n_sYZp0HNpyJ6tYLUoPeFA7xEJEypdITRASB-25Uaz8Xuvg6VSlbQK4tHuZotDUVvDI-oCTY7KSUJYDc5K1z4Oi0IGqQZiOy-iTyOICpVlruh4LCt39voVs6OtMfG5B_QEJO8fqcBPpBYHiiUEsnQlduDws6S-kMn78ptVCh8xe9tqlIgVdB69EyORj8K9AQ3Mf_6C63MYvfpCXc46RPF6uV99Q&amp;__tn__=kC-R" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+        
+        <div>
+                <p class="w3-wide" style="margin:0;"><i>Consecutive Weeks: 1</i></p>
+        </div>
+    </section>
+    
+
+
+    <!-- <div data-type="countup" data-id="87969" class="tickcounter" style="width: 50%; position: relative; padding-bottom: 25%"><a href="//www.tickcounter.com/countup/87969/my-count-up" title="Since we Started">My count up</a><a href="//www.tickcounter.com/countup" title="Countup">Countup</a></div><script>(function(d, s, id) { var js, pjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//www.tickcounter.com/static/js/loader.js"; pjs.parentNode.insertBefore(js, pjs); }(document, "script", "tickcounter-sdk"));</script> -->
+
+
+    <section id='thumbs'>
+        
+    </section> 
+
+    <section class="w3-row-padding w3-center w3-light-grey">
+            <article class="w3-third">
+              <p>Matt</p>
+              <img src="PLBackgroundMatt.png" alt="" style="width:100%">
+            </article>
+            <article class="w3-third">
+              <p>Jamie</p>
+              <img src="PLBackgroundJamie.png" alt="" style="width:100%">
+            </article>
+            <article class="w3-third">
+              <p>Brad</p>
+              <img src="PLBackgroundBrad.png" alt="" style="width:100%">
+            </article>
+    </section> 
+
+     <!-- Footer -->
+     <footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
+        <a href="https://www.facebook.com/pg/Plain-Line-Productions-540127796134144/about/"><i class="fa fa-facebook-official"></i></a>
+        <a href="https://www.youtube.com/user/plainline"><i class="fa fa-youtube"></i></a>
+        <a href="https://www.instagram.com/plainlineproductions/"><i class="fa fa-instagram"></i></a>
+    </footer> 
+    
+    <script src="https://apis.google.com/js/platform.js"></script>
+
+
+    <script>
+      function populateThumbnails(){
+      
+              var request = new XMLHttpRequest();
+              videos = [];
+      
+              request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCEDS2nhcs8RDbS9-CGGCjHA&maxResults=25&key=AIzaSyDvF3ZIBBBIFu_9ZyfCbfLSgsQev1MciKg', true);
+              request.onload = function () {
+      
+                      // Begin accessing JSON data here
+                      var data = JSON.parse(this.response);
+      
+                      if (request.status >= 200 && request.status < 400) {
+                      results = data.pageInfo.totalResults;
+                      items = data.items;
+                      items.forEach(element => {
+                              if('id' in element){
+                                if('videoId' in element.id){
+                                  if('snippet' in element){
+                                    if('thumbnails' in element.snippet){
+                                      if('high' in element.snippet.thumbnails){
+                                        if('url' in element.snippet.thumbnails.high){
+                                          videos.push({
+                                            id: element.id.videoId,
+                                            thumbnailUrl: element.snippet.thumbnails.high.url
+                                          });
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                      });
+                              
+      
+                      } else {
+                              console.log('error');
+                      }
+
+
+                      tempCount = 0;
+                      tempSec = document.createElement("section");
+                      tempSec.className = "w3-row-padding w3-center w3-light-grey";
+                      parentSec = document.getElementById('thumbs');
+
+                      for(i=0;i<videos.length;i++){
+                              tempCount++;
+                              art = document.createElement("article");
+                              art.className = "w3-third";
+                              if(tempCount==4){
+                                tempCount=0;
+                                tempSec = document.createElement("section");
+                                tempSec.className = "w3-row-padding w3-center w3-light-grey";
+                              }
+                              tempA = document.createElement("a");
+                              tempA.href = "https://www.youtube.com/watch?v="+videos[i].id;
+                              tempImg = document.createElement("img");
+                              tempImg.src = videos[i].thumbnailUrl;
+                              tempImg.style = "cursor: pointer;"
+                              //tempImg.style="width:100%";
+                              tempA.appendChild(tempImg);
+                              art.appendChild(tempA);
+                              tempSec.appendChild(art);
+                              parentSec.appendChild(tempSec);
+                      }
+              }
+              request.send();
+      }
+      populateThumbnails();
+</script>
+
+</body>
+</html>
