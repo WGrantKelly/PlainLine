@@ -81,12 +81,15 @@
 
 
     <script>
+      channelID = 'UCbJ9W-EexsJSMc4wMPOA9pA';
+      maxResults = '30';
+      key='AIzaSyDvF3ZIBBBIFu_9ZyfCbfLSgsQev1MciKg';
       function populateThumbnails(){
       
               var request = new XMLHttpRequest();
               videos = [];
       
-              request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCEDS2nhcs8RDbS9-CGGCjHA&maxResults=25&key=AIzaSyDvF3ZIBBBIFu_9ZyfCbfLSgsQev1MciKg', true);
+              request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelID+'&maxResults='+maxResults+'&key='+key, true);
               request.onload = function () {
       
                       // Begin accessing JSON data here
@@ -127,14 +130,15 @@
                       parentSec = document.getElementById('thumbs');
 
                       for(i=0;i<videos.length;i++){
-                              tempCount++;
                               art = document.createElement("article");
                               art.className = "w3-third";
-                              if(tempCount==4){
+                              if(tempCount==3){
                                 tempCount=0;
                                 tempSec = document.createElement("section");
                                 tempSec.className = "w3-row-padding w3-center w3-light-grey";
+                                tempSec.style = "padding-top: 15px;"
                               }
+                              tempCount++;
                               tempA = document.createElement("a");
                               tempA.href = "https://www.youtube.com/watch?v="+videos[i].id;
                               tempImg = document.createElement("img");

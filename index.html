@@ -91,12 +91,46 @@
 
 
         <script>
+                channelID = 'UCbJ9W-EexsJSMc4wMPOA9pA';
+                maxResults = '30';
+                key='AIzaSyDvF3ZIBBBIFu_9ZyfCbfLSgsQev1MciKg';
+                function getVideoViewCount(id){
+
+                        var request = new XMLHttpRequest();
+                        views = 0;
+                        request.open('GET', 'https://www.googleapis.com/youtube/v3/videos?part=statistics&id='+id+'&key='+key, false);
+                        request.onload = function () {
+
+                                // Begin accessing JSON data here
+                                var data = JSON.parse(this.response);
+
+                                if (request.status >= 200 && request.status < 400) {
+                                results = data.pageInfo.totalResults;
+                                items = data.items;
+                                items.forEach(element => {
+                                        if('statistics' in element){
+                                                if('viewCount' in element.statistics){
+                                                        views = element.statistics.viewCount;
+                                                }
+                                        }
+                                });
+                                } else {
+                                        console.log('error');
+                                }
+                        }
+                        request.send();
+                        return views;
+
+                }
                 function populateVideos(){
                 
                         var request = new XMLHttpRequest();
-                        videoIds = [];
+                        videoStats = [];
+                        firstPost = '';
+                        secondPost = '';
+                        thirdPost = '';
                 
-                        request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCEDS2nhcs8RDbS9-CGGCjHA&maxResults=25&key=AIzaSyDvF3ZIBBBIFu_9ZyfCbfLSgsQev1MciKg', true);
+                        request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelID+'&maxResults='+maxResults+'&key='+key, true);
                         request.onload = function () {
                 
                                 // Begin accessing JSON data here
@@ -106,35 +140,105 @@
                                 results = data.pageInfo.totalResults;
                                 items = data.items;
                                 items.forEach(element => {
+                                        tempId = '';
+                                        tempViews = '';
+                                        tempPublished = '';
                                         if('id' in element){
                                                 if('videoId' in element.id){
-                                                        videoIds.push(element.id.videoId)
+                                                        tempId = element.id.videoId;
                                                 }
                                         }
+                                        if('snippet' in element){
+                                                if('publishedAt' in element.snippet){
+                                                        tempPublished = element.snippet.publishedAt;
+                                                }
+                                        }
+                                        if(tempId!=''){
+                                                tempViews = getVideoViewCount(tempId);
+                                        }
+                                        
+                                        if(tempId!='' && tempViews!='' && tempPublished!=''){
+                                                videoStats.push({
+                                                        id : tempId,
+                                                        views : tempViews,
+                                                        published : tempPublished
+                                                });
+                                        }
+                                        
                                 });
                                         
                 
                                 } else {
                                         console.log('error');
                                 }
-                
-                                videoIds.forEach(element => {
+
+                                if(videoStats.length<1){
+                                        console.log('error');
+                                        return;
+                                }
+
+
+                                if(videoStats.length==1){
                                         var sec = document.createElement("section");
                                         sec.class = "w3-container w3-content w3-center";
                                         sec.style = "max-width:2400px; height:100vh;  padding:0;";
                                         var ifr = document.createElement("iframe");
-                                        ifr.src = "https://www.youtube.com/embed/"+element;
+                                        ifr.src = "https://www.youtube.com/embed/"+videoStats[0].id;
                                         ifr.frameborder = '0';
                                         ifr.allow = "autoplay; encrypted-media";
                                         ifr.style = "height:100vh; width:100vw; padding:0;";
                                         sec.appendChild(ifr);
                                         parentSec = document.getElementById('videos');
                                         parentSec.appendChild(sec);
+                                }else{
+
+                                }
+                                
+                                videoStats.sort(function(first, second) {
+                                                return second.views - first.views;
                                 });
+
+                                firstPost = videoStats[0].id;
+
+                                var sec = document.createElement("section");
+                                sec.class = "w3-container w3-content w3-center";
+                                sec.style = "max-width:2400px; height:100vh;  padding:0;";
+                                var ifr = document.createElement("iframe");
+                                ifr.src = "https://www.youtube.com/embed/"+videoStats[0].id;
+                                ifr.frameborder = '0';
+                                ifr.allow = "autoplay; encrypted-media";
+                                ifr.style = "height:100vh; width:100vw; padding:0;";
+                                sec.appendChild(ifr);
+                                parentSec = document.getElementById('videos');
+                                parentSec.appendChild(sec);
+                                
+                                videoStats.sort(function(first, second) {
+                                        return Date.parse(first.published) - Date.parse(second.published);
+                                });
+
+                                var sec = document.createElement("section");
+                                sec.class = "w3-container w3-content w3-center";
+                                sec.style = "max-width:2400px; height:100vh;  padding:0;";
+                                var ifr = document.createElement("iframe");
+                                if(videoStats[0].id == firstPost){
+                                        ifr.src = "https://www.youtube.com/embed/"+videoStats[1].id;   
+                                }else{
+                                        ifr.src = "https://www.youtube.com/embed/"+videoStats[0].id;
+                                }
+                                ifr.frameborder = '0';
+                                ifr.allow = "autoplay; encrypted-media";
+                                ifr.style = "height:100vh; width:100vw; padding:0;";
+                                sec.appendChild(ifr);
+                                parentSec = document.getElementById('videos');
+                                parentSec.appendChild(sec);
+                               
                         }
                         request.send();
                 }
                 populateVideos();
+
+
+                
         </script>
 
 
