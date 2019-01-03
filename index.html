@@ -92,36 +92,9 @@
 
         <script>
                 channelID = 'UCbJ9W-EexsJSMc4wMPOA9pA';
-                maxResults = '30';
+                maxResults = '50';
                 key='AIzaSyDvF3ZIBBBIFu_9ZyfCbfLSgsQev1MciKg';
-                function getVideoViewCount(id){
-
-                        var request = new XMLHttpRequest();
-                        views = 0;
-                        request.open('GET', 'https://www.googleapis.com/youtube/v3/videos?part=statistics&id='+id+'&key='+key, false);
-                        request.onload = function () {
-
-                                // Begin accessing JSON data here
-                                var data = JSON.parse(this.response);
-
-                                if (request.status >= 200 && request.status < 400) {
-                                results = data.pageInfo.totalResults;
-                                items = data.items;
-                                items.forEach(element => {
-                                        if('statistics' in element){
-                                                if('viewCount' in element.statistics){
-                                                        views = element.statistics.viewCount;
-                                                }
-                                        }
-                                });
-                                } else {
-                                        console.log('error');
-                                }
-                        }
-                        request.send();
-                        return views;
-
-                }
+                
                 function populateVideos(){
                 
                         var request = new XMLHttpRequest();
@@ -130,7 +103,7 @@
                         secondPost = '';
                         thirdPost = '';
                 
-                        request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelID+'&maxResults='+maxResults+'&key='+key, true);
+                        request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelID+'&maxResults='+maxResults+'&key='+key+'&order=viewCount', true);
                         request.onload = function () {
                 
                                 // Begin accessing JSON data here
@@ -141,7 +114,6 @@
                                 items = data.items;
                                 items.forEach(element => {
                                         tempId = '';
-                                        tempViews = '';
                                         tempPublished = '';
                                         if('id' in element){
                                                 if('videoId' in element.id){
@@ -153,14 +125,11 @@
                                                         tempPublished = element.snippet.publishedAt;
                                                 }
                                         }
-                                        if(tempId!=''){
-                                                tempViews = getVideoViewCount(tempId);
-                                        }
+                
                                         
-                                        if(tempId!='' && tempViews!='' && tempPublished!=''){
+                                        if(tempId!='' && tempPublished!=''){
                                                 videoStats.push({
                                                         id : tempId,
-                                                        views : tempViews,
                                                         published : tempPublished
                                                 });
                                         }

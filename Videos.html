@@ -82,14 +82,14 @@
 
     <script>
       channelID = 'UCbJ9W-EexsJSMc4wMPOA9pA';
-      maxResults = '30';
+      maxResults = '50';
       key='AIzaSyDvF3ZIBBBIFu_9ZyfCbfLSgsQev1MciKg';
       function populateThumbnails(){
       
               var request = new XMLHttpRequest();
               videos = [];
       
-              request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelID+'&maxResults='+maxResults+'&key='+key, true);
+              request.open('GET', 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelID+'&maxResults='+maxResults+'&key='+key+'&order=viewCount', true);
               request.onload = function () {
       
                       // Begin accessing JSON data here
